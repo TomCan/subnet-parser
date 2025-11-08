@@ -1,0 +1,22 @@
+{
+    "name": "tomcan/subnet-parser",
+    "description": "IP Subnet parser and merger/aggregator",
+    "type": "library",
+    "homepage": "https://github.com/tomcan/subnet-parser",
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "Tomcan\\SubnetParser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Cannaerts",
+            "homepage": "https://tom.be"
+        }
+    ],
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.89"
+    }
+}
