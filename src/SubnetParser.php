@@ -15,7 +15,7 @@ class SubnetParser
      * @param string[] $ranges
      * @return Subnet[]
      */
-    public function convertRangesToSubnets(array $ranges): array
+    public function parseRanges(array $ranges): array
     {
         $subnets = [];
         foreach ($ranges as $range) {
