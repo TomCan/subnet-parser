@@ -200,10 +200,18 @@ class SubnetParser
             $subnets = $merged;
             $merged = [];
             $retryMerge = false;
-            // sort by type and network_h
+            // sort by type, network_h, prefixlength
             usort($subnets, function ($a, $b) {
                 if ($a->type == $b->type) {
-                    return $a->network_h > $b->network_h ? 1 : -1;
+                    if ($a->network_h == $b->network_h) {
+                        if ($a->prefixlength == $b->prefixlength) {
+                            return 0;
+                        } else {
+                            return $a->prefixlength > $b->prefixlength ? 1 : -1;
+                        }
+                    } else {
+                        return $a->network_h > $b->network_h ? 1 : -1;
+                    }
                 } else {
                     return $a->type > $b->type ? 1 : -1;
                 }
