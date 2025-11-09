@@ -233,7 +233,7 @@ class SubnetParser
                             // neighbouring subnets, check for merge
                             if ($subnet->prefixlength == $prev->prefixlength) {
                                 // check if prev network is same as network with prefixlength -1
-                                $larger = new Subnet($prev->network_h, $prev->prefixlength);
+                                $larger = new Subnet($prev->network_h, $prev->prefixlength - 1);
                                 if ($larger->network == $prev->network) {
                                     // same network, merge/update from larger
                                     $prev->prefixlength = $larger->prefixlength;
