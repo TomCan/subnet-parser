@@ -135,7 +135,6 @@ class SubnetParser
         $subnets = [];
         while ($prefixLength <= 128) {
             // max possible subnet, see if $from is first address
-            echo 'C '.inet_ntop($startAddress_h).'/'.$prefixLength.PHP_EOL;
             $subnet = new Subnet($startAddress_h, $prefixLength);
             if ($subnet->network_h == $startAddress_h) {
                 // start matches
@@ -154,7 +153,6 @@ class SubnetParser
             } else {
                 // try next address
                 $next = new Subnet($subnet->next_h, $prefixLength);
-                echo 'N '.inet_ntop($subnet->next_h).'/'.$prefixLength.PHP_EOL;
                 if ($next->last_h <= $endAddress_h) {
                     // fits
                     $subnets[] = $next;
