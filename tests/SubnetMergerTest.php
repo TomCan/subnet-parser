@@ -72,4 +72,31 @@ class SubnetMergerTest extends TestCase
         $this->assertEquals('192.168.0.0', $result[0]->network);
         $this->assertEquals(23, $result[0]->prefixlength);
     }
+
+    /**
+     * Test sorting
+     */
+    public function testMergeSubnetsSorting(): void
+    {
+        // 6 non-adjacent subnets
+        $subnets = [
+            new Subnet(inet_pton('192.168.2.0'), 24),
+            new Subnet(inet_pton('2001:db8::1'), 64),
+            new Subnet(inet_pton('10.16.0.0'), 16),
+            new Subnet(inet_pton('2001:ab8::1'), 48),
+            new Subnet(inet_pton('10.18.0.0'), 16),
+            new Subnet(inet_pton('2001:fb8::1'), 48),
+        ];
+
+        $result = $this->parser->mergeSubnets($subnets);
+
+        // returned order should be indexes 2,4,0,3,1,5
+        $this->assertEquals(6, count($result));
+        $this->assertEquals($subnets[2], $result[0]);
+        $this->assertEquals($subnets[4], $result[1]);
+        $this->assertEquals($subnets[0], $result[2]);
+        $this->assertEquals($subnets[3], $result[3]);
+        $this->assertEquals($subnets[1], $result[4]);
+        $this->assertEquals($subnets[5], $result[5]);
+    }
 }
