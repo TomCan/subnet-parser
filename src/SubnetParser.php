@@ -261,6 +261,10 @@ class SubnetParser
                             $merged[] = $subnet;
                             $prev = $subnet;
                         }
+                    } else {
+                        // different type, insert and prev
+                        $merged[] = $subnet;
+                        $prev = $subnet;
                     }
                 }
             }
