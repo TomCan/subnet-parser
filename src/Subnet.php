@@ -58,7 +58,7 @@ class Subnet
 
     private function getNext(string $packed): ?string
     {
-        for ($i = strlen($packed) - 1; $i > 0; $i--) {
+        for ($i = strlen($packed) - 1; $i >= 0; $i--) {
             if (ord($packed[$i]) == 255) {
                 $packed[$i] = chr(0);
             } else {
@@ -72,7 +72,7 @@ class Subnet
 
     private function getPrev(string $packed): ?string
     {
-        for ($i = strlen($packed) - 1; $i > 0; $i--) {
+        for ($i = strlen($packed) - 1; $i >= 0; $i--) {
             if (ord($packed[$i]) == 0) {
                 $packed[$i] = chr(255);
             } else {
