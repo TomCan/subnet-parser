@@ -7,8 +7,26 @@ use TomCan\SubnetParser\Subnet;
 class SubnetTest extends TestCase
 {
     /**
-     * Test next subnet
+     * Test Subnet class
      */
+    public function testSingleIp(): void
+    {
+        $subnet = new Subnet(inet_pton('127.0.0.1'), 32);
+        $this->assertEquals('127.0.0.1', $subnet->network);
+    }
+
+    public function testSubnetIp(): void
+    {
+        $subnet = new Subnet(inet_pton('127.0.0.1'), 24);
+        $this->assertEquals('127.0.0.0', $subnet->network);
+    }
+
+    public function testInvalid(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $subnet = new Subnet('invalid', 24);
+    }
+
     public function testNextSingle(): void
     {
         $subnet = new Subnet(inet_pton('192.168.1.254'), 32);

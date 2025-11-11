@@ -30,7 +30,7 @@ class Subnet
         } elseif (strlen($network_h) == 16) {
             $this->type = 6;
         } else {
-            throw new Exception("Invalid network h length for ".bin2hex($network_h));
+            throw new \InvalidArgumentException("Invalid network h length for ".bin2hex($network_h));
         }
         $this->prefixlength_h = substr('00'.dechex($prefixLength), -2);
 
