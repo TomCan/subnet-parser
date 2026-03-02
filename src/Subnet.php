@@ -23,8 +23,12 @@ class Subnet
      * @param string $broadcast
      * @param string $next
      */
-    public function __construct(string $network_h, int $prefixLength)
+    public function __construct(string $network_h, int $prefixLength, bool $is_h = true)
     {
+        if (!$is_h) {
+            $network_h = inet_pton($network_h);
+        }
+
         if (strlen($network_h) == 4) {
             $this->type = 4;
         } elseif (strlen($network_h) == 16) {
