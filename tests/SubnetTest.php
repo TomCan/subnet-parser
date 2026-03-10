@@ -83,4 +83,69 @@ class SubnetTest extends TestCase
         $subnet = new Subnet(inet_pton('0.0.0.0'), 32);
         $this->assertNull($subnet->prev);
     }
+
+    /**
+     * Test is_h parameter (human-readable input)
+     */
+    public function testIsHFalseIpv4(): void
+    {
+        $subnet = new Subnet('192.168.1.0', 24, false);
+        $this->assertEquals('192.168.1.0', $subnet->network);
+        $this->assertEquals('192.168.1.255', $subnet->last);
+        $this->assertEquals(4, $subnet->type);
+    }
+
+    public function testIsHFalseIpv4Single(): void
+    {
+        $subnet = new Subnet('10.0.0.1', 32, false);
+        $this->assertEquals('10.0.0.1', $subnet->network);
+        $this->assertEquals('10.0.0.1', $subnet->last);
+    }
+
+    public function testIsHFalseIpv6(): void
+    {
+        $subnet = new Subnet('2001:db8::', 32, false);
+        $this->assertEquals('2001:db8::', $subnet->network);
+        $this->assertEquals(6, $subnet->type);
+    }
+
+    public function testIsHFalseMatchesDefault(): void
+    {
+        $a = new Subnet(inet_pton('10.20.30.0'), 24);
+        $b = new Subnet('10.20.30.0', 24, false);
+        $this->assertEquals($a->network, $b->network);
+        $this->assertEquals($a->last, $b->last);
+        $this->assertEquals($a->prev, $b->prev);
+        $this->assertEquals($a->next, $b->next);
+    }
+
+    /**
+     * Test full parameter (skip prev/next)
+     */
+    public function testFullFalseSkipsPrevNext(): void
+    {
+        $subnet = new Subnet(inet_pton('192.168.1.0'), 24, true, false);
+        $this->assertEquals('192.168.1.0', $subnet->network);
+        $this->assertEquals('192.168.1.255', $subnet->last);
+        $this->assertNull($subnet->prev);
+        $this->assertNull($subnet->prev_h);
+        $this->assertNull($subnet->next);
+        $this->assertNull($subnet->next_h);
+    }
+
+    public function testFullTrueCalculatesPrevNext(): void
+    {
+        $subnet = new Subnet(inet_pton('192.168.1.0'), 24, true, true);
+        $this->assertEquals('192.168.0.255', $subnet->prev);
+        $this->assertEquals('192.168.2.0', $subnet->next);
+    }
+
+    public function testIsHFalseWithFullFalse(): void
+    {
+        $subnet = new Subnet('172.16.0.0', 16, false, false);
+        $this->assertEquals('172.16.0.0', $subnet->network);
+        $this->assertEquals('172.16.255.255', $subnet->last);
+        $this->assertNull($subnet->prev);
+        $this->assertNull($subnet->next);
+    }
 }
