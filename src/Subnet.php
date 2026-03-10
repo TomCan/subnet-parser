@@ -23,7 +23,7 @@ class Subnet
      * @param string $broadcast
      * @param string $next
      */
-    public function __construct(string $network_h, int $prefixLength, bool $is_h = true)
+    public function __construct(string $network_h, int $prefixLength, bool $is_h = true, bool $full = true)
     {
         if (!$is_h) {
             $network_h = inet_pton($network_h);
@@ -45,18 +45,16 @@ class Subnet
         $this->last_h = $this->applyMask($network_h, $prefixLength, 1);
         $this->last = inet_ntop($this->last_h);
 
-        $this->prev_h = $this->getPrev($this->network_h);
-        if ($this->prev_h) {
-            $this->prev = inet_ntop($this->prev_h);
-        } else {
-            $this->prev = null;
-        }
+        if ($full) {
+            $this->prev_h = $this->getPrev($this->network_h);
+            if ($this->prev_h) {
+                $this->prev = inet_ntop($this->prev_h);
+            }
 
-        $this->next_h = $this->getNext($this->last_h);
-        if ($this->next_h) {
-            $this->next = inet_ntop($this->next_h);
-        } else {
-            $this->next = null;
+            $this->next_h = $this->getNext($this->last_h);
+            if ($this->next_h) {
+                $this->next = inet_ntop($this->next_h);
+            }
         }
     }
 
